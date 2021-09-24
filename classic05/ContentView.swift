@@ -13,23 +13,29 @@ struct ContentView: View {
     @State var onOFF = true
     
     var body: some View {
-        VStack{
+        ZStack{
             List(demo){item in
                 if (item.isMyTalk == false){
                     LeftMsg(item:item.speak)
                 }else{
                     RightMsg(item:item.speak)
-                    
-        }
+                }
             }
-            HStack{
-                TextField("內容",text: $speak)
-                GradientButton(text: "送出對話") {
-                                    print("debug")
-                                }
-                
+            VStack {
+                Spacer()
+                HStack{
+                    TextField("",text: $speak)
+                        .frame(height: 80, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        .background(Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)))
+                        .cornerRadius(20)
+                    GradientButton(text: "按我傳送") {
+                        demo.append(msg(speak: speak,isMyTalk: true))
+                                    }
+                  
+                }
+                .frame(height:100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             }
-            .padding()
+            .background(Image("04").resizable().ignoresSafeArea().opacity(0.3))
         }
     }
 }
@@ -47,9 +53,9 @@ struct RightMsg  :View{
             Spacer()
             HStack{
             Text("\(item)")
-            Image(systemName: "person.circle")
+            Image("02")
             .resizable()
-        .frame(width: 60, height: 60, alignment: .center)
+        .frame(width: 70, height: 70, alignment: .center)
         .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
             
         }
@@ -60,9 +66,11 @@ struct LeftMsg : View {
     var item : String
     var body : some View{
         HStack{
-            Image(systemName: "faceid")
-                           .font(.system(size: 40))
-                       Text("\(item)")
+            Image("03")
+                .resizable()
+                .frame(width: 70, height: 70, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+        Text("\(item)")
         }
         }
     }
@@ -71,7 +79,7 @@ struct msg :Identifiable{
     var speak : String
     var isMyTalk = false
 }
-let msgs=[msg(speak:"你好")]
+let msgs=[msg(speak:"哈嘍")]
 struct GradientButton: View {
     
     var text:String
@@ -82,30 +90,20 @@ struct GradientButton: View {
         Button(action: {
             complete()
         }, label: {
-            GeometryReader(content: { geometry in
                 ZStack{
-                    AngularGradient(gradient: Gradient(colors: [Color.red, Color.blue]), center: .center, angle: .degrees(0))
-                        .blendMode(.overlay)
-                        .blur(radius: 8.0)
-                        .mask(
-                            RoundedRectangle(cornerRadius: 16)
-                                .frame(width: geometry.size.width, height: 50)
-                                .blur(radius: 8.0)
-                        )
                     GradientText(text: text)
                         .font(.headline)
-                        .frame(width: geometry.size.width - 16, height: 50)
-                        .background(Color(#colorLiteral(red: 0.1215686277, green: 0.01176470611, blue: 0.4235294163, alpha: 1)).opacity(0.9))
+                        .frame(width:100, height: 100)
+                        .background(Color(#colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)).opacity(0.9))
                         .overlay(
-                            RoundedRectangle(cornerRadius: 16)
+                            RoundedRectangle(cornerRadius: 50)
                                 .stroke(Color.white,lineWidth: 1.9)
                                 .blendMode(.normal)
                                 .opacity(0.7)
                         )
-                        .cornerRadius(16)
-                    
+                        .cornerRadius(100)
                 }
-            })
+          
         })
     }
 }
@@ -117,7 +115,7 @@ struct GradientText: View {
     
     var body: some View {
         Text(text)
-            .linearGradientBackground(colors: [Color(#colorLiteral(red: 0.9857622981, green: 0.2952255011, blue: 0.5630879998, alpha: 1)),Color(#colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1))])
+            .linearGradientBackground(colors: [Color(#colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)),Color(#colorLiteral(red: 0.09019608051, green: 0, blue: 0.3019607961, alpha: 1))])
     }
 }
 
